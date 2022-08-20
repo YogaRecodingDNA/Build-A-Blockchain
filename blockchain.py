@@ -96,11 +96,43 @@ blockchain = Blockchain();
 
 @app.route('/mine', methods = ["GET"])
 def mine():
-    return "We will mine a new block"
+    # Adding our mining reward.
+    # Sender "0" means new coins.
+    blockchain.new_transaction(
+        sender = "0",
+        recipient = node_identifier,
+        amount = 1
+    )
+
+    # Make the new block and mine it
+    block = blockchain.new_block(0)
+    blockchain.proof_of_work(block)
+    response = {
+        "message"       : "New block mined",
+        "index"         : block["index"],
+        "transactions"  : block ["transactions"],
+        "proof"         : block ["proof"],
+        "previous_hash" : block ["previous_hash"]
+    }
+
+    return jsonify(response), 200
 
 @app.route('/transactions/new', methods = ["POST"])
 def new_transaction():
-    return "We will add a new transaction"
+    values = request.get_json()
+
+    if not values:
+        return "Missing body", 400
+
+    required = ["sender", "recipient", "amount"]
+
+    if not all(k in values for k in required):
+        return "Missing values", 400
+
+    index = blockchain.new_transaction(values["sender"], values["recipient"], values["amount"])
+
+    response = { "message": "Transaction will be added to block {index}" }
+    return jsonify(response), 201
 
 @app.route('/chain', methods = ["GET"])
 def full_chain():
