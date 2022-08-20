@@ -3,7 +3,6 @@ import hashlib
 import json
 from uuid import uuid4
 from time import time
-
 class Blockchain(object):
     def __init__(self):
         self.chain = []
@@ -111,15 +110,14 @@ class Blockchain(object):
         }
         return jsonify(response), 200
 
+    if __name__=="__main__":
+        app.run(host='0.0.0.0', port=5000)
 
 if __name__=="__main__":
-   app.run(host='0.0.0.0', port=5000)
+    blockchain = Blockchain()
+    blockchain.proof_of_work(blockchain.last_block)
+    print(blockchain.hash(blockchain.last_block))
 
-# if __name__=="__main__":
-#     blockchain = Blockchain()
-#     blockchain.proof_of_work(blockchain.last_block)
-#     print(blockchain.hash(blockchain.last_block))
-
-    # blockchain.new_transaction("Alice", "Bob", 50)
-    # blockchain.new_block(0)
-    # print(blockchain.hash(blockchain.last_block))
+    blockchain.new_transaction("Alice", "Bob", 50)
+    blockchain.new_block(0)
+    print(blockchain.hash(blockchain.last_block))
