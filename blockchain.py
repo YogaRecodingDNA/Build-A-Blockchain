@@ -70,7 +70,14 @@ class Blockchain(object):
             block["proof"] += 1
 
     @staticmethod
-    
+    def valid_proof(block):
+        """
+        The Proof-of-Work conditions.
+        Check if the hash of the block starts with 4 zeroes.
+        Higher difficulty == more zeroes, lower difficulty == less.
+        :param block: <dict>
+        """
+        return Blockchain.hash(block)[:4] == "0000"
 
     @property
     def last_block(self):
@@ -80,8 +87,9 @@ class Blockchain(object):
 
 if __name__=="__main__":
     blockchain = Blockchain()
+    blockchain.proof_of_work(blockchain.last_block)
     print(blockchain.hash(blockchain.last_block))
 
-    blockchain.new_transaction("Alice", "Bob", 50)
-    blockchain.new_block(0)
-    print(blockchain.hash(blockchain.last_block))
+    # blockchain.new_transaction("Alice", "Bob", 50)
+    # blockchain.new_block(0)
+    # print(blockchain.hash(blockchain.last_block))
