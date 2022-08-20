@@ -9,7 +9,7 @@ class Blockchain(object):
         # Create the genesis block
         self.new_block(previous_hash = '1', proof = 100)
 
-    def new_block(self):
+    def new_block(self, proof, previous_hash = None):
         """
         Creates a new Block and adds it to the blcokchain
         :param proof: <int> The proof given by the Proof of Work algorithm
