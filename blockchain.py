@@ -94,10 +94,10 @@ class Blockchain(object):
         neighbours = self.nodes
         new_chain = None
         # We;re only looking for chains longer than ours
-        max_length = lens(self.chain)
+        max_length = len(self.chain)
         # Grab and verify the chains from all the nodes in our network
         for node in neighbours:
-            response = requests.get('http://{node}/chain')
+            response = requests.get(f'http://{node}/chain')
             if response.status_code == 200:
                 length = response.json()['length']
                 chain = response.json()['chain']
@@ -195,7 +195,7 @@ def new_transaction():
 
     index = blockchain.new_transaction(values["sender"], values["recipient"], values["amount"])
 
-    response = { "message": "Transaction will be added to block {index}" }
+    response = { "message": f"Transaction will be added to block {index}" }
     return jsonify(response), 201
 
 @app.route('/chain', methods = ["GET"])
@@ -256,4 +256,4 @@ if __name__=="__main__":
 
 #     blockchain.new_transaction("Alice", "Bob", 50)
 #     blockchain.new_block(0)
-#     print(blockchain.hash(blockchain.last_block))
+#     print(blockchain.hash(blockchain.last_block)
