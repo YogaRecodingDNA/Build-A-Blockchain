@@ -59,6 +59,19 @@ class Blockchain(object):
         block_string = json.dumps(block, sort_keys = True).encode()
         return hashlib.sha256(block_string).hexdigest()
 
+    @staticmethod
+    def proof_of_work(block):
+        """
+        Proof-of-Work algorithm.
+        Iterate the "proof" field until the conditions are satisfied.
+        :param block: <dict>
+        """
+        while not Blockchain.valid_proof(block):
+            block["proof"] += 1
+
+    @staticmethod
+    
+
     @property
     def last_block(self):
         """Returns the last Block in the chain"""
