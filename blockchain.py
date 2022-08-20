@@ -1,5 +1,7 @@
+from flask import Flask, jsonify, request
 import hashlib
 import json
+from uuid import uuid4
 from time import time
 
 class Blockchain(object):
@@ -83,6 +85,15 @@ class Blockchain(object):
     def last_block(self):
         """Returns the last Block in the chain"""
         return self.chain[-1]
+
+    # Instance our Node
+    app = Flask(__name__)
+
+    # Generate a globally unique address for this node
+    node_identifier = str(uuid4()).replace('-', '')
+
+    # Instance the Blockchain
+    blockchain = Blockchain();
 
 
 if __name__=="__main__":
