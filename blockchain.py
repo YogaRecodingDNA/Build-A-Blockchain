@@ -85,39 +85,39 @@ class Blockchain(object):
         """Returns the last Block in the chain"""
         return self.chain[-1]
 
-    # Instance our Node
-    app = Flask(__name__)
+# Instance our Node
+app = Flask(__name__)
 
-    # Generate a globally unique address for this node
-    node_identifier = str(uuid4()).replace('-', '')
+# Generate a globally unique address for this node
+node_identifier = str(uuid4()).replace('-', '')
 
-    # Instance the Blockchain
-    blockchain = Blockchain();
+# Instance the Blockchain
+blockchain = Blockchain();
 
-    @app.route('/mine', methods = ["GET"])
-    def mine():
-        return "We will mine a new block"
+@app.route('/mine', methods = ["GET"])
+def mine():
+    return "We will mine a new block"
 
-    @app.route('/transactions/new', methods = ["POST"])
-    def new_transaction():
-        return "We will add a new transaction"
+@app.route('/transactions/new', methods = ["POST"])
+def new_transaction():
+    return "We will add a new transaction"
 
-    @app.route('/chain', methods = ["GET"])
-    def full_chain():
-        response = {
-            'chain': blockchain.chain,
-            'length': len(blockchain.chain)
-        }
-        return jsonify(response), 200
-
-    if __name__=="__main__":
-        app.run(host='0.0.0.0', port=5000)
+@app.route('/chain', methods = ["GET"])
+def full_chain():
+    response = {
+        'chain': blockchain.chain,
+        'length': len(blockchain.chain)
+    }
+    return jsonify(response), 200
 
 if __name__=="__main__":
-    blockchain = Blockchain()
-    blockchain.proof_of_work(blockchain.last_block)
-    print(blockchain.hash(blockchain.last_block))
+    app.run(host='0.0.0.0', port=5000)
 
-    blockchain.new_transaction("Alice", "Bob", 50)
-    blockchain.new_block(0)
-    print(blockchain.hash(blockchain.last_block))
+# if __name__=="__main__":
+#     blockchain = Blockchain()
+#     blockchain.proof_of_work(blockchain.last_block)
+#     print(blockchain.hash(blockchain.last_block))
+
+#     blockchain.new_transaction("Alice", "Bob", 50)
+#     blockchain.new_block(0)
+#     print(blockchain.hash(blockchain.last_block))
